@@ -5,6 +5,7 @@
 // 5. Check if the user won
 // 6. Give the user their winnings
 // 7. Play again
+
 const prompt = require("prompt-sync")();
 
 //  all import and libraries -> global variables -> classses and fucntion -> main lines or other aspect of the code
@@ -25,6 +26,7 @@ const SYMBOLS_VALUES = {
     "C": 3,
     "D": 2
 }
+
 
 const deposit = () => {
     while (true) {
@@ -119,10 +121,53 @@ const printRows = (rows) => {
     }
 };
 
+const getWinnings = (rows, bet, lines) => {
+    let winnings = 0;
 
-let balance = deposit();
-const numberOfLines = getNumberOfLines();
-const bet = getBet(balance, numberOfLines);
-const reels = spin();
-const rows = transpose(reels);
-printRows(rows);
+    for (let row = 0; row < lines; row++) {
+        const symbols = rows[row];
+        let allSame = true;
+
+        for (const symbol of symbols) {
+            if (symbol != symbols[0]) {
+                allSame = false;
+                break;
+            }
+        }
+
+        if (allSame) {
+            winnings += bet * SYMBOLS_VALUES[symbols[0]]
+        }
+    }
+    return winnings;
+}
+
+const game = () => {
+    let balance = deposit();
+
+    while (true) {
+        console.log("You have a balance of $" + balance);
+        const numberOfLines = getNumberOfLines();
+        const bet = getBet(balance, numberOfLines);
+        balance -= bet * numberOfLines;
+        const reels = spin();
+        const rows = transpose(reels);
+        printRows(rows);
+        const winnings = getWinnings(rows, bet, numberOfLines);
+        balance += winnings;
+        console.log("You Won, $" + winnings.toString());
+
+        if (balance <= 0) {
+            console.log("You run out of money");
+            break;
+        }
+
+        const playAgain = prompt("Do you want to play again (y/n)? ");
+
+        if (playAgain != "y") break;
+    }
+};
+
+game();
+
+
