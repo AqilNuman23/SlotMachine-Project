@@ -1,7 +1,10 @@
-# Project Slot Machine (Gambling Machine)
+# Slot Machine Project (Gambling Machine)
 
 ## Disclaimer
 I do not support gambling :> Just doing this project because it beginner friendly.
+
+## Run the Project
+[Slot Machine Project](./index.js)
 
 ## Next Project Ideas
 So I think I would translate this project in a web. So that user can experience this project in web looks.
